@@ -12,7 +12,8 @@ class ServicioController extends Controller
      */
     public function index()
     {
-        //
+        $servicios = \App\Models\Servicio::latest()->paginate(10);
+            return view('servicios.index', compact('servicios'));
     }
 
     /**
@@ -20,7 +21,7 @@ class ServicioController extends Controller
      */
     public function create()
     {
-        //
+        return view('servicios.create');
     }
 
     /**
@@ -28,7 +29,24 @@ class ServicioController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nombre' => 'required|string|max:100',
+            'descripcion' => 'nullable|string|max:255',
+            'precio' => 'required|numeric|min:0',
+        ], [
+            'nombre.required' => 'El nombre es obligatorio.',
+            'precio.required' => 'El precio es obligatorio.',
+            'precio.numeric' => 'El precio debe ser un número.',
+            'precio.min' => 'El precio no puede ser negativo.',
+        ]);
+
+        Servicio::create([
+            'nombre' => $request->nombre,
+            'descripcion' => $request->descripcion,
+            'precio' => $request->precio,
+        ]);
+
+        return redirect()->route('servicios.index')->with('success', 'Servicio creado correctamente.');
     }
 
     /**
@@ -36,7 +54,7 @@ class ServicioController extends Controller
      */
     public function show(Servicio $servicio)
     {
-        //
+        return view('servicios.show', compact('servicio'));
     }
 
     /**
@@ -44,7 +62,7 @@ class ServicioController extends Controller
      */
     public function edit(Servicio $servicio)
     {
-        //
+        return view('servicios.edit', compact('servicio'));
     }
 
     /**
@@ -52,7 +70,24 @@ class ServicioController extends Controller
      */
     public function update(Request $request, Servicio $servicio)
     {
-        //
+        $request->validate([
+            'nombre' => 'required|string|max:100',
+            'descripcion' => 'nullable|string|max:255',
+            'precio' => 'required|numeric|min:0',
+        ], [
+            'nombre.required' => 'El nombre es obligatorio.',
+            'precio.required' => 'El precio es obligatorio.',
+            'precio.numeric' => 'El precio debe ser un número.',
+            'precio.min' => 'El precio no puede ser negativo.',
+        ]);
+
+        $servicio->update([
+            'nombre' => $request->nombre,
+            'descripcion' => $request->descripcion,
+            'precio' => $request->precio,
+        ]);
+
+        return redirect()->route('servicios.index')->with('success', 'Servicio actualizado correctamente.');
     }
 
     /**
@@ -60,6 +95,7 @@ class ServicioController extends Controller
      */
     public function destroy(Servicio $servicio)
     {
-        //
+        $servicio->delete();
+        return redirect()->route('servicios.index')->with('success', 'Servicio eliminado correctamente.');
     }
 }
