@@ -11,6 +11,8 @@ class DetalleOrden extends Model
 
     protected $fillable = ['orden_id', 'servicio_id', 'cantidad', 'subtotal', 'total'];
 
+    protected $table = 'detalle_ordenes';
+
     public function orden()
     {
         return $this->belongsTo(Orden::class);
