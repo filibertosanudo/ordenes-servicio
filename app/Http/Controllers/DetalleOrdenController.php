@@ -13,7 +13,7 @@ class DetalleOrdenController extends Controller
      */
     public function index()
     {
-        $ordenes = Orden::with(['cliente', 'detalles.servicio'])->get();
+        $ordenes = Orden::with(['cliente', 'detalles.servicio'])->paginate(9);
         return view('detalles.index', compact('ordenes'));
     }
 

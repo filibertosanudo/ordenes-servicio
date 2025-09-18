@@ -12,9 +12,9 @@ class ClienteController extends Controller
      */
     public function index()
     {
-        $clientes = \App\Models\Cliente::latest()->paginate(10);
-            return view('clientes.index', compact('clientes'));
-    }
+        $clientes = \App\Models\Cliente::paginate(10);
+        return view('clientes.index', compact('clientes'));
+        }
 
     /**
      * Show the form for creating a new resource.

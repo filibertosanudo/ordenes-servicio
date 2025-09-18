@@ -15,7 +15,7 @@ class OrdenController extends Controller
      */
     public function index()
     {
-        $ordenes = Orden::with('cliente')->get();
+        $ordenes = Orden::with('cliente')->paginate(10);
         return view('ordenes.index', compact('ordenes'));
     }
 

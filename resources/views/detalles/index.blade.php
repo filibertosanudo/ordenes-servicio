@@ -71,6 +71,9 @@
             </div>
             @endforeach
         </div>
+        <div class="d-flex justify-content-center mt-4">
+            {{ $ordenes->links('pagination::bootstrap-5') }}
+        </div>
     @endif
 </div>
 @endsection
