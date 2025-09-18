@@ -13,7 +13,7 @@ Route::get('/', function () {
 
 Route::resource('clientes', ClienteController::class);
 Route::resource('servicios', ServicioController::class);
-Route::resource('detalles', DetalleOrdenController::class);
+Route::resource('detalles', DetalleOrdenController::class)->only(['index', 'show']);
 
 Route::get('ordenes', [OrdenController::class, 'index'])->name('ordenes.index');
 Route::get('ordenes/create', [OrdenController::class, 'create'])->name('ordenes.create');

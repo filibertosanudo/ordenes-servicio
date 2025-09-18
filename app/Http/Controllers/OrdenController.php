@@ -126,16 +126,30 @@ class OrdenController extends Controller
             ]);
         }
 
-        return redirect()->route('ordenes.index')->with('success', 'Orden actualizada correctamente');
+        if ($request->from === 'detalles') {
+            return redirect()->route('detalles.index')
+                            ->with('success', 'Orden actualizada correctamente desde Detalles.');
+        }
+
+        return redirect()->route('ordenes.index')
+                        ->with('success', 'Orden actualizada correctamente.');
+
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Orden $orden)
+    public function destroy(Request $request, Orden $orden)
     {
         $orden->detalles()->delete();
         $orden->delete();
-        return redirect()->route('ordenes.index')->with('success', 'Orden eliminada correctamente.');
+
+        if ($request->query('from') === 'detalles') {
+            return redirect()->route('detalles.index')
+                            ->with('success', 'Orden eliminada correctamente desde Detalles.');
+        }
+
+        return redirect()->route('ordenes.index')
+                        ->with('success', 'Orden eliminada correctamente.');
     }
 }

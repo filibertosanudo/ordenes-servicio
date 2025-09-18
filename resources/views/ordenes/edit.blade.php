@@ -10,6 +10,8 @@
         @csrf
         @method('PUT')
 
+        <input type="hidden" name="from" value="{{ request('from') }}">
+
         <div class="mb-3">
             <label for="cliente_id" class="form-label">Cliente</label>
             <select name="cliente_id" id="cliente_id" class="form-select @error('cliente_id') is-invalid @enderror">
@@ -77,7 +79,10 @@
         </div>
 
         <button type="submit" class="btn btn-primary">Guardar</button>
-        <a href="{{ route('ordenes.index') }}" class="btn btn-secondary">Cancelar</a>
+        <a href="{{ request('from') === 'detalles' ? route('detalles.index') : route('ordenes.index') }}"
+        class="btn btn-secondary">
+            Cancelar
+        </a>
     </form>
 </div>
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\DetalleOrden;
+use App\Models\Orden;
 use Illuminate\Http\Request;
 
 class DetalleOrdenController extends Controller
@@ -12,7 +13,8 @@ class DetalleOrdenController extends Controller
      */
     public function index()
     {
-        //
+        $ordenes = Orden::with(['cliente', 'detalles.servicio'])->get();
+        return view('detalles.index', compact('ordenes'));
     }
 
     /**
@@ -34,9 +36,11 @@ class DetalleOrdenController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(DetalleOrden $detalleOrden)
+    public function show(Orden $detalle)
     {
-        //
+        $detalle->load('cliente', 'detalles.servicio');
+
+        return view('detalles.show', ['detalle' => $detalle]);
     }
 
     /**
@@ -50,9 +54,17 @@ class DetalleOrdenController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, DetalleOrden $detalleOrden)
+    public function update(Request $request, Orden $orden)
     {
-        //
+        $orden->update($request->all());
+
+        if ($request->has('from') && $request->from === 'detalles') {
+            return redirect()->route('detalles.index')
+                            ->with('success', 'Orden actualizada correctamente desde detalles.');
+        }
+
+        return redirect()->route('ordenes.index')
+                        ->with('success', 'Orden actualizada correctamente.');
     }
 
     /**
