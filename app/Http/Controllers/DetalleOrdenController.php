@@ -74,4 +74,16 @@ class DetalleOrdenController extends Controller
     {
         //
     }
+
+    public function restore($id)
+    {
+        $orden = Orden::withTrashed()->findOrFail($id);
+        $orden->restore();
+
+        foreach ($orden->detalles()->withTrashed()->get() as $detalle) {
+            $detalle->restore();
+        }
+
+        return redirect()->route('ordenes.index')->with('success', 'Orden restaurada correctamente.');
+    }
 }

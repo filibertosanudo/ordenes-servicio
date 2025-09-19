@@ -161,6 +161,9 @@ class OrdenController extends Controller
     {
         $orden = Orden::withTrashed()->findOrFail($id);
         $orden->restore();
+
+        $orden->detalles()->withTrashed()->restore();
+
         return redirect()->route('ordenes.index')->with('success', 'Orden restaurada correctamente.');
     }
 }
