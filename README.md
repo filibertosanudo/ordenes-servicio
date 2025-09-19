@@ -7,55 +7,97 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
+## Instalación del Proyecto
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Sigue estos pasos para instalar y ejecutar el sistema de órdenes de servicio:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+1. **Clona el repositorio**
+   ```sh
+   git clone https://github.com/filibertosanudo/ordenes-servicio.git
+   cd ordenes-servicio
+   ```
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+2. **Instala dependencias**
+   ```sh
+   composer install
+   npm install
+   ```
 
-## Learning Laravel
+3. **Configura el archivo de entorno**
+   ```sh
+   cp .env.example .env
+   ```
+   Edita `.env` con tus datos de base de datos y correo.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+4. **Genera la clave de la aplicación**
+   ```sh
+   php artisan key:generate
+   ```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+5. **Ejecuta las migraciones y seeders**
+   ```sh
+   php artisan migrate --seed
+   ```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+6. **Compila los assets**
+   ```sh
+   npm run dev
+   ```
 
-## Laravel Sponsors
+7. **Inicia el servidor**
+   ```sh
+   php artisan serve
+   ```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+8. **Accede a la aplicación**
+   Abre [http://localhost:8000](http://localhost:8000) en tu navegador.
 
-### Premium Partners
+---
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+Descripción del Proyecto
 
-## Contributing
+Este proyecto es un sistema de gestión de órdenes de servicio desarrollado en Laravel 12. Permite administrar clientes, servicios, órdenes y los detalles de cada orden, incluyendo:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+1. Registro y edición de clientes.
 
-## Code of Conduct
+2. Registro y edición de servicios con descripción y precio.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+3. Creación, edición y visualización de órdenes de servicio.
 
-## Security Vulnerabilities
+4. Gestión de los detalles de cada orden, incluyendo cantidad, subtotal y total.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+5. Soft delete para clientes, servicios y órdenes eliminados, con manejo seguro en las órdenes y detalles existentes.
 
-## License
+6. Validaciones para asegurar que las órdenes siempre tengan al menos un servicio y un cliente válido.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+---
+
+Flujo de uso
+
+1. Clientes
+
+    - Accede a /clientes para gestionar clientes.
+
+    - Puedes agregar, editar o eliminar clientes.
+
+2. Servicios
+
+    - Accede a /servicios para gestionar servicios disponibles.
+
+    - Los servicios eliminados no rompen las órdenes existentes.
+
+3. Órdenes
+
+    - Accede a /ordenes para ver todas las órdenes.
+
+    - Crear una orden requiere seleccionar un cliente y al menos un servicio.
+
+    - Editar o eliminar órdenes actualiza automáticamente los detalles asociados.
+
+4. Detalles de Orden
+
+    - Accede a /detalles para ver los detalles de cada orden.
+
+    - Cada card muestra máximo 2 servicios; se mantiene el tamaño uniforme aunque tenga menos servicios.
+
+    - Funcionalidades de editar, eliminar y ver más permiten gestionar los detalles de la orden sin perder consistencia visual.
