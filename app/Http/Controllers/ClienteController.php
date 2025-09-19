@@ -10,11 +10,15 @@ class ClienteController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $clientes = \App\Models\Cliente::paginate(10);
-        return view('clientes.index', compact('clientes'));
+        if ($request->has('eliminados')) {
+            $clientes = Cliente::onlyTrashed()->paginate(10);
+        } else {
+            $clientes = Cliente::paginate(10);
         }
+        return view('clientes.index', compact('clientes'));
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -105,5 +109,11 @@ class ClienteController extends Controller
         $cliente->delete();
 
         return redirect()->route('clientes.index')->with('success', 'Cliente eliminado correctamente.');
+    }
+
+    public function restore($id)
+    {
+        Cliente::withTrashed()->findOrFail($id)->restore();
+        return redirect()->route('clientes.index')->with('success', 'Cliente restaurado correctamente.');
     }
 }

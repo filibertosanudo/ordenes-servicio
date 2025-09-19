@@ -13,9 +13,13 @@ class OrdenController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $ordenes = Orden::with('cliente')->paginate(10);
+        if ($request->has('eliminados')) {
+            $ordenes = Orden::onlyTrashed()->with('cliente')->paginate(10);
+        } else {
+            $ordenes = Orden::with('cliente')->paginate(10);
+        }
         return view('ordenes.index', compact('ordenes'));
     }
 
@@ -151,5 +155,12 @@ class OrdenController extends Controller
 
         return redirect()->route('ordenes.index')
                         ->with('success', 'Orden eliminada correctamente.');
+    }
+
+    public function restore($id)
+    {
+        $orden = Orden::withTrashed()->findOrFail($id);
+        $orden->restore();
+        return redirect()->route('ordenes.index')->with('success', 'Orden restaurada correctamente.');
     }
 }

@@ -12,7 +12,11 @@ Route::get('/', function () {
 
 
 Route::resource('clientes', ClienteController::class);
+Route::post('clientes/{id}/restore', [ClienteController::class, 'restore'])->name('clientes.restore');
+
 Route::resource('servicios', ServicioController::class);
+Route::post('servicios/{id}/restore', [ServicioController::class, 'restore'])->name('servicios.restore');
+
 Route::resource('detalles', DetalleOrdenController::class)->only(['index', 'show']);
 
 Route::get('ordenes', [OrdenController::class, 'index'])->name('ordenes.index');
@@ -22,3 +26,4 @@ Route::get('ordenes/{orden}', [OrdenController::class, 'show'])->name('ordenes.s
 Route::get('ordenes/{orden}/edit', [OrdenController::class, 'edit'])->name('ordenes.edit');
 Route::put('ordenes/{orden}', [OrdenController::class, 'update'])->name('ordenes.update');
 Route::delete('ordenes/{orden}', [OrdenController::class, 'destroy'])->name('ordenes.destroy');
+Route::post('ordenes/{id}/restore', [OrdenController::class, 'restore'])->name('ordenes.restore');

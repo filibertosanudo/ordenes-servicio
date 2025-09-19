@@ -10,10 +10,14 @@ class ServicioController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $servicios = \App\Models\Servicio::paginate(10);
-            return view('servicios.index', compact('servicios'));
+        if ($request->has('eliminados')) {
+            $servicios = Servicio::onlyTrashed()->paginate(10);
+        } else {
+            $servicios = Servicio::paginate(10);
+        }
+        return view('servicios.index', compact('servicios'));
     }
 
     /**
@@ -97,5 +101,11 @@ class ServicioController extends Controller
     {
         $servicio->delete();
         return redirect()->route('servicios.index')->with('success', 'Servicio eliminado correctamente.');
+    }
+
+    public function restore($id)
+    {
+        Servicio::withTrashed()->findOrFail($id)->restore();
+        return redirect()->route('servicios.index')->with('success', 'Servicio restaurado correctamente.');
     }
 }

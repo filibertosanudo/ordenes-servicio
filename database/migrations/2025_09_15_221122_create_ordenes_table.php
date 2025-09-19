@@ -17,6 +17,7 @@ return new class extends Migration
             $table->date('fecha');
             $table->enum('estatus', ['pendiente', 'en proceso', 'completada'])->default('pendiente');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
