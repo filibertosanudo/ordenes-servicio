@@ -6,7 +6,7 @@
 <div class="container">
     <h1 class="mb-4">Orden #{{ $orden->id }}</h1>
 
-    <div class="mb-3"><strong>Cliente:</strong> {{ $orden->cliente->nombre }}</div>
+    <div class="mb-3"><strong>Cliente:</strong> {{ $orden->cliente?->nombre ?? 'Cliente eliminado' }}</div>
     <div class="mb-3"><strong>Fecha:</strong> {{ $orden->fecha }}</div>
     <div class="mb-3"><strong>Estatus:</strong> {{ ucfirst($orden->estatus) }}</div>
 
@@ -23,7 +23,7 @@
             @php $total = 0; @endphp
             @foreach($orden->detalles as $detalle)
                 <tr>
-                    <td>{{ $detalle->servicio->nombre }}</td>
+                    <td>{{ $detalle->servicio->nombre ?? 'Servicio eliminado'}}</td>
                     <td>{{ $detalle->cantidad }}</td>
                     <td>${{ number_format($detalle->subtotal, 2) }}</td>
                 </tr>

@@ -51,7 +51,7 @@
                     @foreach($ordenes as $orden)
                         <tr>
                             <td>{{ $orden->id }}</td>
-                            <td>{{ $orden->cliente->nombre }}</td>
+                            <td>{{ $orden->cliente->nombre ?? 'Cliente eliminado'}}</td>
                             <td>{{ $orden->fecha }}</td>
                             <td>{{ ucfirst($orden->estatus) }}</td>
                             <td>

@@ -8,7 +8,7 @@
 
     <div class="card mb-4">
         <div class="card-body">
-            <p><strong>Cliente:</strong> {{ $detalle->cliente->nombre }}</p>
+            <p><strong>Cliente:</strong> {{ $detalle->cliente?->nombre ?? 'Cliente eliminado' }}</p>
             <p><strong>Fecha:</strong> {{ $detalle->fecha }}</p>
             <p>
                 <strong>Estatus:</strong>
@@ -34,12 +34,18 @@
         </thead>
         <tbody>
             @foreach($detalle->detalles as $det)
-            <tr>
-                <td>{{ $det->servicio->nombre }}</td>
-                <td>{{ $det->cantidad }}</td>
-                <td>${{ number_format($det->servicio->precio, 2) }}</td>
-                <td>${{ number_format($det->subtotal, 2) }}</td>
-            </tr>
+                <tr>
+                    <td>{{ $det->servicio?->nombre ?? 'Servicio eliminado' }}</td>
+                    <td>{{ $det->cantidad }}</td>
+                    <td>
+                        @if($det->servicio)
+                            ${{ number_format($det->servicio->precio, 2) }}
+                        @else
+                            —
+                        @endif
+                    </td>
+                    <td>${{ number_format($det->subtotal, 2) }}</td>
+                </tr>
             @endforeach
         </tbody>
         <tfoot>
