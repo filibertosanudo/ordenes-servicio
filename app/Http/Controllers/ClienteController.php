@@ -35,7 +35,7 @@ class ClienteController extends Controller
     {
         $request->validate([
             'nombre' => 'required|string|max:100',
-            'email' => 'required|email|unique:clientes,email',
+            'email' => 'required|email:rfc,dns|unique:clientes,email,',
             'telefono' => 'required|numeric|digits_between:8,15',
         ], [
             'nombre.required' => 'El nombre es obligatorio.',
@@ -80,7 +80,7 @@ class ClienteController extends Controller
     {
         $request->validate([
             'nombre' => 'required|string|max:100',
-            'email' => 'required|email|unique:clientes,email,' . $cliente->id,
+            'email' => 'required|email:rfc,dns|unique:clientes,email,' . $cliente->id,
             'telefono' => 'required|numeric|digits_between:8,15',
         ], [
             'nombre.required' => 'El nombre es obligatorio.',
